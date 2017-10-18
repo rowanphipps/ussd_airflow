@@ -129,6 +129,9 @@ SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 
 DEFAULT_USSD_SCREEN_JOURNEY = "./ussd/tests/sample_screen_definition/sample_customer_journey.yml"
 
+CUSTOM_ROUTES = {
+    "123" : "sample_customer_journey.yml",
+}
 
 #Todo investigate why this variable is not working when using
 # override_settings

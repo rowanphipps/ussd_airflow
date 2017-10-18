@@ -55,6 +55,33 @@ class AfricasTalkingUssdGateway(UssdView):
             response = HttpResponse(res)
         return response
 
+class Routing_Gateway(AfricasTalkingUssdGateway):
+
+    def get_customer_journey_conf(self, request):
+        if request.data.get('customer_journey_conf'):
+            return path + '/' + request.data.get('customer_journey_conf')
+
+        routes = getattr(settings, "CUSTOM_ROUTES")
+        if routes:
+            name = routes.get(request.data["serviceCode"])
+            if name:
+                return ("./routes/" + name)
+
+        return getattr(settings, 'DEFAULT_USSD_SCREEN_JOURNEY',
+                       path + "/sample_customer_journey.yml")
+
+    def get_customer_journey_namespace(self, request):
+        if request.data.get('customer_journey_conf'):
+            return request.data['customer_journey_conf'].replace(
+                '.yml', ''
+            )
+        routes = getattr(settings, "CUSTOM_ROUTES")
+        if routes:
+            name = routes.get(request.data["serviceCode"])
+            if name:
+                return name.replace('.yml', '')
+        return "AfricasTalkingUssdGateway"
+
 def journey_visual(request):
     return render(request,'journey_visual.html',{'yaml_files':_customer_journey_files})
 

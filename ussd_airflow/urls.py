@@ -16,10 +16,14 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from ussd.views import AfricasTalkingUssdGateway
+from ussd.views import Routing_Gateway
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^africastalking_gateway',
         AfricasTalkingUssdGateway.as_view(),
-        name='africastalking_url')
+        name='africastalking_url'),
+    url(r'^routing_gateway',
+        Routing_Gateway.as_view(),
+        )
 ]
